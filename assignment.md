@@ -20,7 +20,7 @@ This assignment reinforces:
 
 ## Assignment Description
 
-Build a **Task Board** — a simple Kanban-style board where users can add tasks, move them between columns (To Do, In Progress, Done), and view task details. This project exercises unidirectional data flow and conditional rendering across multiple components.
+Build a **Task Board**: a simple Kanban-style board where users can add tasks, move them between columns (To Do, In Progress, Done), and view task details. This project exercises unidirectional data flow and conditional rendering across multiple components.
 
 ### What You'll Build
 
@@ -114,7 +114,7 @@ const handleMoveTask = (taskId) => {
 
 #### 5. Derived Column Arrays
 
-Compute the column arrays during render — do not store them as state:
+Compute the column arrays during render; do not store them as state:
 
 ```js
 const todoTasks = tasks.filter((t) => t.status === "todo");

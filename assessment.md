@@ -11,7 +11,7 @@
 
 ### Q1 (True/False)
 
-In React, data flows in one direction — from parent components down to child components via props.
+In React, data flows in one direction: from parent components down to child components via props.
 
 A - True
 
@@ -131,13 +131,13 @@ What will the following JSX render when `count` is `0`?
 <div>{count && <p>Items found</p>}</div>
 ```
 
-A - Nothing — the `<p>` is hidden
+A - Nothing: the `<p>` is hidden
 
 B - An empty `<div>`
 
 C - `0` rendered as text inside the `<div>`
 
-D - An error — `&&` cannot be used with numbers
+D - An error: `&&` cannot be used with numbers
 
 ---
 
@@ -385,7 +385,7 @@ D - `id` is the only property guaranteed to exist on a customer
 
 ### Q27 (True/False)
 
-Two sibling components can share state by storing it in a common parent, passing the value down as a prop, and passing a callback for updates — without using any global state library.
+Two sibling components can share state by storing it in a common parent, passing the value down as a prop, and passing a callback for updates, without using any global state library.
 
 A - True
 
@@ -399,7 +399,7 @@ A developer writes a `CustomerList` component that renders a card for each custo
 
 A - React throws an error because you cannot call `.map()` on an empty array
 
-B - Nothing is rendered — an empty array produces no output in JSX
+B - Nothing is rendered; an empty array produces no output in JSX
 
 C - A single empty `<div>` is rendered
 

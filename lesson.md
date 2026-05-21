@@ -3,7 +3,7 @@
 ## Overview
 
 - **Duration:** ~2 hours (hands-on lab)
-- **Prerequisites:** Lesson 2.2 — State Management and Event Handling in React
+- **Prerequisites:** Lesson 2.2: State Management and Event Handling in React
 
 ## Learning Objectives
 
@@ -16,7 +16,7 @@ By the end of this lesson, you will be able to:
 
 ## Introduction
 
-In Lesson 2.2 you built a working CRM app — but all the state and UI live inside a single `App.jsx`. Today you'll refactor it into focused components, wire them together using unidirectional data flow, and add a search bar and a customer detail panel. Along the way you'll see why React's one-way data model makes apps predictable, and you'll learn how to render different UI based on application state.
+In Lesson 2.2 you built a working CRM app, but all the state and UI live inside a single `App.jsx`. Today you'll refactor it into focused components, wire them together using unidirectional data flow, and add a search bar and a customer detail panel. Along the way you'll see why React's one-way data model makes apps predictable, and you'll learn how to render different UI based on application state.
 
 ---
 
@@ -26,8 +26,8 @@ In Lesson 2.2 you built a working CRM app — but all the state and UI live insi
 
 At the end of Lesson 2.2, your `simple-crm-web` project has:
 
-- `App.jsx` — all state and UI in a single component
-- `mockData.js` — customer data and ID generator
+- `App.jsx`: all state and UI in a single component
+- `mockData.js`: customer data and ID generator
 - Add Customer form with controlled inputs
 - Delete button on each customer card
 
@@ -42,7 +42,7 @@ Navigate to `http://localhost:5173` and verify the customer list and add form ar
 
 ### Today's Goal
 
-We'll refactor `App.jsx` into multiple focused components, add a search bar, and add a customer detail panel — all using unidirectional data flow and conditional rendering.
+We'll refactor `App.jsx` into multiple focused components, add a search bar, and add a customer detail panel, all using unidirectional data flow and conditional rendering.
 
 **Final component tree:**
 
@@ -62,7 +62,7 @@ Right now, the customer card JSX is embedded directly inside `App.jsx`. That wor
 
 ### Step 1: Create `CustomerCard.jsx`
 
-Create a new file `src/CustomerCard.jsx`. We define the component to accept two props — `customer` (the data) and `onDelete` (a function to call when the Delete button is clicked).
+Create a new file `src/CustomerCard.jsx`. We define the component to accept two props: `customer` (the data) and `onDelete` (a function to call when the Delete button is clicked).
 
 ```jsx
 // src/CustomerCard.jsx
@@ -83,7 +83,7 @@ function CustomerCard({ customer, onDelete }) {
 export default CustomerCard;
 ```
 
-Notice that `CustomerCard` does **not** call `setCustomers` — it has no access to that state. It only calls `onDelete(customer.id)`, and the parent decides what happens next. This is the core of unidirectional data flow: **data flows down via props, events flow up via callbacks**.
+Notice that `CustomerCard` does **not** call `setCustomers`; it has no access to that state. It only calls `onDelete(customer.id)`, and the parent decides what happens next. This is the core of unidirectional data flow: **data flows down via props, events flow up via callbacks**.
 
 > **Common mistake:** Passing the entire `setCustomers` function down to `CustomerCard`. That gives the child unrestricted write access to state it shouldn't own. Pass a specific handler function instead.
 
@@ -174,20 +174,20 @@ function App() {
 export default App;
 ```
 
-**Browser check:** The app should look and behave exactly as before. Add a customer, delete a customer — same behaviour, but the card is now its own component.
+**Browser check:** The app should look and behave exactly as before. Add a customer, delete a customer; same behaviour, but the card is now its own component.
 
 ---
 
 ## Part 3: Add a Search Bar (30 minutes)
 
-We want to filter the customer list by name or email as the user types. Let's build `SearchBar` the most natural-feeling way first — then discover why it doesn't work, and fix it.
+We want to filter the customer list by name or email as the user types. Let's build `SearchBar` the most natural-feeling way first, then discover why it doesn't work, and fix it.
 
 ### Step 1: Create `SearchBar.jsx` with its own state
 
-Create `src/SearchBar.jsx`. Give it its own `searchTerm` state — that's the obvious first instinct:
+Create `src/SearchBar.jsx`. Give it its own `searchTerm` state; that is the obvious first instinct:
 
 ```jsx
-// src/SearchBar.jsx — first attempt
+// src/SearchBar.jsx: first attempt
 import { useState } from "react";
 
 function SearchBar() {
@@ -235,12 +235,12 @@ import SearchBar from "./SearchBar";
 
 **Browser check:** The search input renders and you can type into it. So far so good.
 
-### Step 3: Try to filter — and hit the wall
+### Step 3: Try to filter, and hit the wall
 
 Now try to use `searchTerm` in `App.jsx` to filter the list:
 
 ```jsx
-// src/App.jsx — this won't work
+// src/App.jsx: this won't work
 const filteredCustomers = customers.filter(
   (c) => c.firstName.toLowerCase().includes(searchTerm.toLowerCase())
 );
@@ -248,16 +248,16 @@ const filteredCustomers = customers.filter(
 
 `searchTerm` is not defined in `App`. It lives inside `SearchBar`. `App` has no way to read it.
 
-This is the fundamental constraint of React's data model: **state is private to the component that owns it**. `SearchBar` and the customer list are siblings — neither can reach into the other.
+This is the fundamental constraint of React's data model: **state is private to the component that owns it**. `SearchBar` and the customer list are siblings; neither can reach into the other.
 
 ### Step 4: Lift the state up to `App`
 
-The fix is to move `searchTerm` to the closest component that needs to share it — their common ancestor, `App`. Then `App` passes the value down to `SearchBar` as a prop, and `SearchBar` calls a callback to update it.
+The fix is to move `searchTerm` to the closest component that needs to share it, which is their common ancestor, `App`. Then `App` passes the value down to `SearchBar` as a prop, and `SearchBar` calls a callback to update it.
 
 First, update `SearchBar` to receive its value and change handler as props instead of owning them:
 
 ```jsx
-// src/SearchBar.jsx — updated
+// src/SearchBar.jsx: updated
 function SearchBar({ searchTerm, onSearch }) {
   return (
     <div className="search-bar">
@@ -277,10 +277,10 @@ export default SearchBar;
 Then move the state into `App`, compute `filteredCustomers` from it, and pass both down:
 
 ```jsx
-// src/App.jsx — add searchTerm state and filteredCustomers
+// src/App.jsx: add searchTerm state and filteredCustomers
 const [searchTerm, setSearchTerm] = useState("");
 
-// Derived — computed on every render, always in sync
+// Derived: computed on every render, always in sync
 const filteredCustomers = customers.filter(
   (c) =>
     c.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -305,11 +305,11 @@ const filteredCustomers = customers.filter(
 </div>
 ```
 
-> **Why not `useState` for `filteredCustomers`?** If you store it separately, you now have two sources of truth. Every time `customers` or `searchTerm` changes you'd have to keep them in sync manually — a common source of bugs. Computing it during render is cheaper than it looks and always correct.
+> **Why not `useState` for `filteredCustomers`?** If you store it separately, you now have two sources of truth. Every time `customers` or `searchTerm` changes you'd have to keep them in sync manually, a common source of bugs. Computing it during render is cheaper than it looks and always correct.
 
 **Browser check:** Typing in the search box now filters the displayed cards in real time. The customer count updates to reflect the filtered results. Deleting a customer still works correctly.
 
-This pattern — moving state to a common ancestor so siblings can share it — is called **lifting state up**. You'll use it constantly in React.
+This pattern of moving state to a common ancestor so siblings can share it is called **lifting state up**. You'll use it constantly in React.
 
 ---
 
@@ -323,7 +323,7 @@ You've seen how to render a list conditionally. Now apply it yourself.
 1. Check `filteredCustomers.length === 0` before rendering the grid
 2. Use a ternary (`condition ? a : b`) to choose between the empty message and the grid
 3. To show a different message depending on whether there's a search term active, you can nest another ternary inside the empty message: `{searchTerm ? "..." : "..."}`
-4. The empty state and the grid are siblings — wrap them both inside the existing `<div className="customer-list">` element
+4. The empty state and the grid are siblings; wrap them both inside the existing `<div className="customer-list">` element
 
 **Expected result:**
 - Searching for something with no matches → "No customers match your search."
@@ -409,9 +409,9 @@ export default CustomerDetail;
 ```
 
 Notice we use three different conditional rendering patterns here:
-- `if (!customer) return ...` — early return for the null case
-- `|| "N/A"` — fallback for optional string fields
-- `{customer.yearOfBirth && <p>...}` — only renders when the value exists
+- `if (!customer) return ...`: early return for the null case
+- `|| "N/A"`: fallback for optional string fields
+- `{customer.yearOfBirth && <p>...}`: only renders when the value exists
 
 ### Step 2: Update `CustomerCard` to support selection
 
@@ -442,7 +442,7 @@ export default CustomerCard;
 ### Step 3: Add `selectedCustomer` state to `App` and wire it up
 
 ```jsx
-// src/App.jsx — add selectedCustomer state
+// src/App.jsx: add selectedCustomer state
 import CustomerDetail from "./CustomerDetail";
 
 const [selectedCustomer, setSelectedCustomer] = useState(null);
@@ -464,7 +464,7 @@ const handleDeleteCustomer = (customerId) => {
 Wrap the customer panel and detail panel in a two-column flex layout:
 
 ```jsx
-// src/App.jsx — updated return
+// src/App.jsx: updated return
 import CustomerDetail from "./CustomerDetail";
 
 return (
@@ -566,7 +566,7 @@ Now apply what you know about boolean state and conditional rendering.
 <summary>Reference solution</summary>
 
 ```jsx
-// In App.jsx — add showForm state
+// In App.jsx: add showForm state
 const [showForm, setShowForm] = useState(false);
 
 // In the return, replace the form with:
@@ -612,7 +612,7 @@ const [showForm, setShowForm] = useState(false);
 
 ## Part 5: Bonus Challenges
 
-Work on as many as you can — they are listed in order of difficulty.
+Work on as many as you can; they are listed in order of difficulty.
 
 ### Challenge 1: Customer Count Badge
 
