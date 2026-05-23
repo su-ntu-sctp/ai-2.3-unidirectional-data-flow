@@ -56,7 +56,34 @@ App
 
 ---
 
-## Part 2: Extract CustomerCard (20 minutes)
+## Part 2: Separating UI from Logic (5 minutes)
+
+Before writing any code, take a moment to look at `App.jsx` from Lesson 2.2. It does two very different things at once:
+
+- It **manages state**: `customers`, `firstName`, `lastName`, `email`, and the logic that updates them
+- It **renders UI**: the form inputs, the customer cards, the layout
+
+As an app grows, mixing these two concerns in one file makes it harder to understand and change. A useful way to think about components is to ask: does this component *own data and logic*, or does it *just render what it receives*?
+
+In the React community, these two roles are sometimes called **smart components** and **presentational components**:
+
+| | Smart component | Presentational component |
+|---|---|---|
+| **Also called** | Container component | UI component |
+| **Owns state?** | Yes | No |
+| **Has logic?** | Yes (handlers, derivations) | Minimal |
+| **Receives data via** | State and its own logic | Props only |
+| **Example (today)** | `App` | `CustomerCard` |
+
+> **A note on history:** This terminology was popularised by Dan Abramov around 2015, when class components were the norm. He later updated his original article to note that React Hooks make the distinction less rigid; a single function component can manage state and stay clean at the same time. The terms are still useful as a way of thinking about *responsibility*: which components should own decisions, and which should just display what they are given.
+
+You do not need to enforce this as a strict rule. Think of it as a question to ask when a component is getting complicated: should I separate the logic from the display?
+
+In this lesson, `App` will act as the smart component. It owns all state and handlers, and passes data and callbacks down. The components we extract (`CustomerCard`, `SearchBar`, and `CustomerDetail`) will be presentational: they receive props and render UI.
+
+---
+
+## Part 3: Extract CustomerCard (20 minutes)
 
 Right now, the customer card JSX is embedded directly inside `App.jsx`. That works, but as the card grows (more fields, more buttons) the file becomes hard to navigate. We'll move the card into its own component.
 
@@ -178,7 +205,7 @@ export default App;
 
 ---
 
-## Part 3: Add a Search Bar (30 minutes)
+## Part 4: Add a Search Bar (30 minutes)
 
 We want to filter the customer list by name or email as the user types. Let's build `SearchBar` the most natural-feeling way first, then discover why it doesn't work, and fix it.
 
@@ -361,7 +388,7 @@ You've seen how to render a list conditionally. Now apply it yourself.
 
 ---
 
-## Part 4: Customer Detail Panel (30 minutes)
+## Part 5: Customer Detail Panel (30 minutes)
 
 Now we'll add a `CustomerDetail` component that shows full information about a selected customer. Clicking a card selects it; the panel updates on the right.
 
@@ -610,7 +637,7 @@ const [showForm, setShowForm] = useState(false);
 
 ---
 
-## Part 5: Bonus Challenges
+## Part 6: Bonus Challenges
 
 Work on as many as you can; they are listed in order of difficulty.
 
