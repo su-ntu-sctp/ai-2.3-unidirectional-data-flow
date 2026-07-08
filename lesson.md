@@ -277,6 +277,7 @@ You have seen how to render a list conditionally. Now apply it yourself.
 <summary>Reference solution</summary>
 
 ```jsx
+// src/App.jsx
 <div className="customer-list">
   <h2>Customers ({filteredCustomers.length})</h2>
 

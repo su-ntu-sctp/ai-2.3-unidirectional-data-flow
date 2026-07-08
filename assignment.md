@@ -5,7 +5,6 @@
 - **Lesson:** Unidirectional Data Flow and Conditional Rendering / 3
 - **Type:** Optional Take-Home Assignment
 - **Estimated Time:** 2–3 hours
-- **Due:** Before next lesson
 - **Submission:** GitHub repository link or ZIP file
 
 ## Learning Objectives Covered
